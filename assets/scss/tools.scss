@@ -1,0 +1,78 @@
+    @mixin from-to-with-between($cssProperty, $fromValue, $toValue, $fromMq: 320px, $toMq: 1440px) {
+        #{$cssProperty}: $fromValue;
+
+        @media ( min-width: $fromMq ) {
+            #{$cssProperty}: between($fromValue, $toValue, $fromMq, $toMq); 
+        }
+
+        @media ( min-width: $toMq ) {
+            #{$cssProperty}: $toValue;
+        }
+    }
+
+    @mixin transition-out () {
+        animation-name: transition-out;
+        animation-fill-mode: forwards;
+        animation-timing-function: cubic-bezier(.6,.02,.68,.3);
+        animation-iteration-count: 1;
+        animation-duration: .3s;
+
+        @keyframes transition-out {
+            0% {
+                transform: translate( 0 );
+                clip-path: inset( 0 0 0 0 );
+            }
+            100% {
+                transform: translate( 80px );
+                clip-path: inset( 0 100% 0 0 );   
+            }
+        }
+    }
+    @mixin transition-in () {
+        transform: translate( 80px );
+        clip-path: inset( 0 100% 0 0 );
+        animation-name: transition-in;
+        animation-fill-mode: forwards;
+        animation-timing-function: cubic-bezier(.43,.72,.48,.98);
+        animation-iteration-count: 1;
+        animation-duration: .3s;
+
+        @keyframes transition-in {
+            0% {
+                transform: translate( -80px );
+                clip-path: inset( 0 0 0 100% );
+            }
+            100% {
+                transform: translate( 0 );
+                clip-path: inset( 0 0 0 0 );
+            }
+        }
+    }
+
+    @function between($to, $from, $toWidth, $fromWidth) {
+        $slope: ($to - $from) / ($toWidth - $fromWidth);
+        $base: $from - $slope * $fromWidth;
+
+        @return calc(#{$base} + #{100vw * $slope});
+    }
+
+	$base_line_height: 1.4;
+    $base_font_size: 20px;
+
+    $colours: (
+    	'brand-primary' : #3d3d3d,
+    	'brand-secondary' : #0ff,
+    	'grey-light' : #ededed,
+    	'grey-dark' : #242424,
+    	'white' : #fff,
+        'black' : #000,
+    );
+
+    $font-sizes: (
+        'xs' : 12px,
+        's' : 16px,
+        'm' : 18px,
+        'l' : 24px,
+        'xl' : 48px,
+        'xxl' : 72px,
+    );
